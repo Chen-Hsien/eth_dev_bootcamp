@@ -139,3 +139,79 @@ module.exports = {
     mempool
 };
 ```
+### BUILD A MINER. 4: Mine TX
+```JS
+const SHA256 = require('crypto-js/sha256');
+const TARGET_DIFFICULTY = BigInt(0x0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff);
+const MAX_TRANSACTIONS = 10;
+const mempool = [];
+const blocks = [];
+
+function addTransaction(transaction) {
+    mempool.push(transaction);
+}
+
+function mine() {
+    let transactions = [];
+    while (transactions.length < MAX_TRANSACTIONS && mempool.length > 0) {
+        transactions.push(mempool.pop());
+    }
+    const block = { id: blocks.length, transactions }
+    const hash = SHA256(JSON.stringify(block));
+    blocks.push({ ...block, hash })
+}
+
+module.exports = {
+    TARGET_DIFFICULTY,
+    MAX_TRANSACTIONS,
+    addTransaction,
+    mine,
+    mempool,
+    blocks,
+};
+```
+### BUILD A MINER. 4: Target Difficulty
+```JS
+const SHA256 = require('crypto-js/sha256');
+const TARGET_DIFFICULTY = BigInt(0x0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff);
+const MAX_TRANSACTIONS = 10;
+const mempool = [];
+const blocks = [];
+
+function addTransaction(transaction) {
+    mempool.push(transaction);
+}
+
+function mine() {
+    let transactions = [];
+    while (transactions.length < MAX_TRANSACTIONS && mempool.length > 0) {
+        transactions.push(mempool.pop());
+    }
+    const block = { id: blocks.length, transactions}
+    block.nonce = 0;
+    let hash;
+    while (true) {
+        hash = SHA256(JSON.stringify(block)).toString();
+        if (BigInt(`0x${hash}`) < TARGET_DIFFICULTY) {
+            break;
+        }
+        block.nonce++;
+    }
+    blocks.push({ ...block, hash })
+}
+
+module.exports = {
+    TARGET_DIFFICULTY,
+    MAX_TRANSACTIONS,
+    addTransaction,
+    mine,
+    mempool,
+    blocks,
+};
+```
+How is the block hash calculated?   
+```
+f ( data ) = hash
+f ( index + previous hash + timestamp + data + nonce ) = hash
+f ( 0 + "0" + 1508270000000 + "Welcome to Blockchain Demo 2.0!" + 604 ) = 000dc75a315c77a1f9c98fb6247d03dd18ac52632d7dc6a9920261d8109b37cf
+```
