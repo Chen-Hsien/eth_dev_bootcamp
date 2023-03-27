@@ -215,3 +215,4 @@ f ( data ) = hash
 f ( index + previous hash + timestamp + data + nonce ) = hash
 f ( 0 + "0" + 1508270000000 + "Welcome to Blockchain Demo 2.0!" + 604 ) = 000dc75a315c77a1f9c98fb6247d03dd18ac52632d7dc6a9920261d8109b37cf
 ```
+![image](https://user-images.githubusercontent.com/24216536/227890774-56014b4d-9e66-4d74-be29-c2919f590ce9.png).   
