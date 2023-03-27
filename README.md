@@ -43,6 +43,99 @@ module.exports = recoverKey;
 ```
 
 ### 4: Public Key to Address
+Bitcoin and Ethereum both have a transformation process to take a public key and turn it into an address. For Bitcoin it includes a checksum and Base58 encoding. Ethereum's address transformation is quite a bit simpler, its address is the last 20 bytes of the hash of the public key.
 ```JS
+//First step, you'll need to take the first byte off the public key. The first byte indicates the format of the key
+const secp = require("ethereum-cryptography/secp256k1");
+const { keccak256 } = require("ethereum-cryptography/keccak");
 
+function getAddress(publicKey) {
+    return keccak256(publicKey.slice(1)).slice(-20)
+}
+
+module.exports = getAddress;
+```
+
+### BUILD A MINER. 1: Add Transaction into Mempool
+```JS
+const SHA256 = require('crypto-js/sha256');
+const TARGET_DIFFICULTY = BigInt(0x0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff);
+const MAX_TRANSACTIONS = 10;
+
+const mempool = [];
+const blocks = [];
+
+function addTransaction(transaction) {
+    // TODO: add transaction to mempoole
+    return mempool.push(transaction);
+}
+
+module.exports = {
+    TARGET_DIFFICULTY,
+    MAX_TRANSACTIONS,
+    addTransaction, 
+    mine, 
+    blocks,
+    mempool
+};
+```
+
+### BUILD A MINER. 2: Mining Blocks
+```JS
+const SHA256 = require('crypto-js/sha256');
+const TARGET_DIFFICULTY = BigInt(0x0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff);
+const MAX_TRANSACTIONS = 10;
+
+const mempool = [];
+const blocks = [];
+
+function addTransaction(transaction) {
+    // TODO: add transaction to mempoole
+    return mempool.push(transaction);
+}
+
+function mine() {
+    // TODO: mine a block
+    const block = { id: blocks.length }
+    blocks.push(block);
+}
+
+module.exports = {
+    TARGET_DIFFICULTY,
+    MAX_TRANSACTIONS,
+    addTransaction, 
+    mine, 
+    blocks,
+    mempool
+};
+```
+### BUILD A MINER. 3: Block Hash
+```JS
+const SHA256 = require('crypto-js/sha256');
+const TARGET_DIFFICULTY = BigInt(0x0fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff);
+const MAX_TRANSACTIONS = 10;
+
+const mempool = [];
+const blocks = [];
+
+function addTransaction(transaction) {
+    // TODO: add transaction to mempoole
+    return mempool.push(transaction);
+}
+
+function mine() {
+    // TODO: mine a block
+    const sha256 = SHA256(JSON.stringify({ id: blocks.length }));
+    const block = { id: blocks.length, hash: sha256 }
+    blocks.push(block);
+}
+
+module.exports = {
+    TARGET_DIFFICULTY,
+    MAX_TRANSACTIONS,
+    addTransaction, 
+    mine, 
+    blocks,
+    mempool
+};
 ```
