@@ -216,3 +216,41 @@ f ( index + previous hash + timestamp + data + nonce ) = hash
 f ( 0 + "0" + 1508270000000 + "Welcome to Blockchain Demo 2.0!" + 604 ) = 000dc75a315c77a1f9c98fb6247d03dd18ac52632d7dc6a9920261d8109b37cf
 ```
 ![image](https://user-images.githubusercontent.com/24216536/227890774-56014b4d-9e66-4d74-be29-c2919f590ce9.png).   
+
+### BLOCKCHAIN DATA STRUCTURE 1: Blocks and Hashes - Return a Hash
+```JS
+const SHA256 = require('crypto-js/sha256');
+
+class Block {
+    toHash() {
+        return SHA256(Block);
+    }
+}
+module.exports = Block;
+```
+
+### BLOCKCHAIN DATA STRUCTURE 2: What's in a Hash? - Adding Data to the Hash
+```JS
+const SHA256 = require('crypto-js/sha256');
+class Block {
+    constructor(data){
+        this.data = data;
+    }
+    toHash() {
+        return SHA256(this.data)
+    }
+}
+module.exports = Block;
+```
+
+### BLOCKCHAIN DATA STRUCTURE 3: The Genesis Block - Add the Genesis Block
+```JS
+const Block = require('./Block');
+class Blockchain {
+    constructor() {
+        const newBlock = new Block('Genesis');
+        this.chain = [newBlock];
+    }
+}
+module.exports = Blockchain;
+```
